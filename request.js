@@ -21,7 +21,7 @@ function request(url, options = {}) {
         let urlObject = new URL(url);
 
         options.host = urlObject.host;
-        options.path = urlObject.pathname;
+        options.path = urlObject.pathname + urlObject.search;
         urlObject.port && (options.port = urlObject.port);
         options.protocol = urlObject.protocol;
       } catch (err) {
