@@ -1,7 +1,10 @@
 import http from "http";
 import https from "https";
 
+// Text based content types
 const UTF8 = /text|xml|json|ecmascript/;
+// HTTP redirect status codes
+const REDIRECT = [301, 302, 307, 308];
 
 /**
  * Promise based HTTP request helper. Converts response data
@@ -31,7 +34,9 @@ function request(url, options = {}) {
     let client = options.protocol === "https:" ? https : http;
 
     let req = client.request(options, (res) => {
-      if (res.statusCode === 301 || res.statusCode === 308) {
+      // Automatically redo the request using the specified location
+      // Usually when a website redirects you to https from http
+      if (REDIRECT.includes(res.statusCode)) {
         resolve(request(res.headers.location, options));
       }
 
