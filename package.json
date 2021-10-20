@@ -1,5 +1,5 @@
 {
-  "name": "http_helper",
+  "name": "node_http_request",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
