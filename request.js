@@ -7,8 +7,8 @@ const UTF8 = /text|xml|json|ecmascript/;
  * Promise based HTTP request helper. Converts response data
  * to utf-8 depending on the HTTP Content-Type
  *
- * @param {string} [url]
- * @param {Object} options - node http request options. Use options.data to write data to post requests
+ * @param {string} [url] - optional
+ * @param {Object} options - http request options https://nodejs.org/api/http.html#httprequesturl-options-callback. Use options.data to write data to post requests
  * @returns {Promise} - returns response data on success
  */
 function request(url, options = {}) {
