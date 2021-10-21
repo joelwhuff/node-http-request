@@ -1,25 +1,25 @@
 import http from "http";
 import https from "https";
 
-// Text based content types
+// Content-Types to convert to utf-8
 const UTF8 = /text|xml|json|ecmascript/;
 // HTTP redirect status codes
 const REDIRECT = [301, 302, 307, 308];
 
 /**
  * Promise based HTTP request helper. Converts response data
- * to utf-8 depending on the HTTP Content-Type
+ * to utf-8 depending on the Content-Type header
  *
- * @param {string} [url] - optional
- * @param {Object} options - http request options https://nodejs.org/api/http.html#httprequesturl-options-callback. Use options.data to write data to post requests
- * @returns {Promise} - returns response data on success
+ * @param {string} [url]
+ * @param {Object} [options] Node http request options https://nodejs.org/api/http.html#httprequesturl-options-callback
+ * @param {(string|Buffer)} [options.postData] Data to write to POST requests
+ * @returns {Promise} Response data
  */
-async function request(url, options = {}) {
+export default async function request(url, options = {}) {
   return new Promise((resolve, reject) => {
     if (typeof url === "string") {
       try {
         let urlObject = new URL(url);
-
         options.host = urlObject.host;
         options.path = urlObject.pathname + urlObject.search;
         urlObject.port && (options.port = urlObject.port);
@@ -34,7 +34,7 @@ async function request(url, options = {}) {
     let client = options.protocol === "https:" ? https : http;
 
     let req = client.request(options, (res) => {
-      // Automatically redo the request using the specified location
+      // Automatically resend the request using the specified location
       // Usually when a website redirects you to https from http
       if (REDIRECT.includes(res.statusCode)) {
         resolve(request(res.headers.location, options));
@@ -56,12 +56,10 @@ async function request(url, options = {}) {
 
     req.on("error", reject);
 
-    if (options.data) {
-      req.write(options.data);
+    if (options.postData) {
+      req.write(options.postData);
     }
 
     req.end();
   });
 }
-
-export default request;
