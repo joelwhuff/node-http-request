@@ -14,7 +14,7 @@ const REDIRECT = [301, 302, 307, 308];
  * @param {Object} options - http request options https://nodejs.org/api/http.html#httprequesturl-options-callback. Use options.data to write data to post requests
  * @returns {Promise} - returns response data on success
  */
-function request(url, options = {}) {
+async function request(url, options = {}) {
   return new Promise((resolve, reject) => {
     if (typeof url === "string") {
       try {
