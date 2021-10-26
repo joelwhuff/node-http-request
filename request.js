@@ -47,8 +47,14 @@ export default async function request(url, options = {}) {
       });
 
       res.on("end", () => {
-        let data = Buffer.concat(chunks);
-        resolve(UTF8.test(res.headers["content-type"]) ? data.toString("utf8") : data);
+        let data = chunks.length ? Buffer.concat(chunks) : null;
+        resolve({
+          httpVersion: res.httpVersion,
+          statusCode: res.statusCode,
+          statusMessage: res.statusMessage,
+          headers: res.headers,
+          data: UTF8.test(res.headers["content-type"]) ? data.toString("utf8") : data,
+        });
       });
 
       res.on("error", reject);
