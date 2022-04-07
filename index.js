@@ -39,7 +39,7 @@ const request = (url, options = {}) => {
                     statusCode: res.statusCode,
                     statusMessage: res.statusMessage,
                     headers: res.headers,
-                    data: /text|json|javascript/.test(res.headers['content-type']) ? data.toString() : data,
+                    data: /text|javascript|json|xml/.test(res.headers['content-type']) ? data.toString() : data,
                 });
             });
         });
