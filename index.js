@@ -7,6 +7,7 @@ import { finished } from 'stream';
  * @param {Object} [options]
  * @param {string} [options.method=GET]
  * @param {(string|Buffer)} [options.postData]
+ * @returns {Promise}
  */
 const request = (url, options = {}) => {
     return new Promise((resolve, reject) => {
