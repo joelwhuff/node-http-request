@@ -48,9 +48,7 @@ const request = (url, options = {}) => {
             if (err) reject(err);
         });
 
-        if (options.method?.toUpperCase() === 'POST' && options.postData) {
-            req.write(options.body);
-        }
+        if (options.postData) req.write(options.postData);
 
         req.end();
     });
