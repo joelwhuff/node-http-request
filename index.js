@@ -6,7 +6,8 @@ import { finished } from 'stream';
  * @param {string} url
  * @param {Object} [options]
  * @param {string} [options.method=GET]
- * @param {(string|Buffer)} [options.postData]
+ * @param {Object} [options.headers]
+ * @param {(string|Buffer)} [options.body]
  * @returns {Promise}
  */
 const request = (url, options = {}) => {
@@ -49,7 +50,7 @@ const request = (url, options = {}) => {
             if (err) reject(err);
         });
 
-        if (options.postData) req.write(options.postData);
+        if (options.body) req.write(options.body);
 
         req.end();
     });
